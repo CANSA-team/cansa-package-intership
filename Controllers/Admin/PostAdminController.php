@@ -1,4 +1,4 @@
-<?php namespace Foostart\Post\Controllers\Admin;
+<?php namespace Cansa\Intership\Controllers\Admin;
 
 /*
 |-----------------------------------------------------------------------
@@ -16,10 +16,10 @@ use URL, Route, Redirect;
 use Illuminate\Support\Facades\App;
 
 use Foostart\Category\Library\Controllers\FooController;
-use Foostart\Post\Models\Post;
+use Cansa\Intership\Models\Post;
 use Foostart\Category\Models\Category;
 use Foostart\Slideshow\Models\Slideshow;
-use Foostart\Post\Validators\PostValidator;
+use Cansa\Intership\Validators\PostValidator;
 
 
 class PostAdminController extends FooController {

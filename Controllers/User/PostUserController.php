@@ -1,4 +1,4 @@
-<?php namespace Foostart\Post\Controllers\User;
+<?php namespace Cansa\Intership\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

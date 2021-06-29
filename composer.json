@@ -1,5 +1,5 @@
 {
-    "name": "foostart/package-intership",
+    "name": "cansa/package-intership",
     "description": "Manage post",
     "keywords": [
         "foostart",
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Foostart\\Intership\\": "/"
+            "Cansa\\Intership\\": "/"
         }
     },
     "minimum-stability": "dev"

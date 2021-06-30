@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Models;
-
+namespace Cansa\Intership\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +24,7 @@ class Diary extends Model
 
     //lấy tất cả diary (chưa join)
     static function getDiaries(){
+        
         return Diary::all();
     }
     

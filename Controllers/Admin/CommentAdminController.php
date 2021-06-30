@@ -1,4 +1,4 @@
-<?php namespace Cansa\Intership\Controllers\Front;
+<?php namespace Cansa\Intership\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,7 +8,7 @@ use URL,
     Redirect;
 use Foostart\Sample\Models\Samples;
 
-class PostFrontController extends Controller
+class CommentAdminController extends Controller
 {
     public $data = array();
     public function __construct() {

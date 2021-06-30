@@ -16,7 +16,7 @@
 
 ## Step 1: Add service providers to **config/app.php**
 
-1. Foostart\Post\PostServiceProvider::class,
+1. Cansa\Intership\IntershipServiceProvider::class,
 1. Foostart\Slideshow\SlideshowServiceProvider::class,
 1. Foostart\Filemanager\FilemanagerServiceProvider::class,
 1. Intervention\Image\ImageServiceProvider::class,
@@ -28,7 +28,7 @@
 
 ## Step 3: Install publish
 
-1. php artisan vendor:publish --provider="Foostart\Post\PostServiceProvider" --force
+1. php artisan vendor:publish --provider="Cansa\Intership\IntershipServiceProvider" --force
 1. php artisan vendor:publish --provider="Foostart\Slideshow\SlideshowServiceProvider" --force
 
 

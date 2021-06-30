@@ -1,6 +1,6 @@
 <?php
 
-namespace Foostart\Intership;
+namespace Cansa\Intership;
 
 use Illuminate\Support\ServiceProvider;
 use LaravelAcl\Authentication\Classes\Menu\SentryMenuFactory;

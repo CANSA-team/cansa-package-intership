@@ -29,9 +29,6 @@ class IntershipServiceProvider extends ServiceProvider {
         // publish config
         $this->publishConfig();
 
-        // publish lang
-        $this->publishLang();
-
         // publish views
         //$this->publishViews();
 
@@ -66,16 +63,7 @@ class IntershipServiceProvider extends ServiceProvider {
                 ], 'config');
     }
 
-    /**
-     * Public language to system
-     * @source: vendor/foostart/package-intership/lang
-     * @destination: resources/lang
-     */
-    protected function publishLang() {
-        $this->publishes([
-            __DIR__ . '/lang' => base_path('resources/lang'),
-        ]);
-    }
+    
 
     /**
      * Public view to system
@@ -91,7 +79,7 @@ class IntershipServiceProvider extends ServiceProvider {
 
     protected function publishAssets() {
         $this->publishes([
-            __DIR__ . '/public' => public_path('packages/foostart/package-intership'),
+            __DIR__ . '/public' => public_path('packages/cansa/package-intership'),
         ]);
     }
     

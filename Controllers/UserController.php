@@ -2,12 +2,12 @@
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use URL,
     Route,
     Redirect;
 use Foostart\Sample\Models\Samples;
 use Cansa\Intership\Models\Users;
+use Cansa\Intership\Models\UserType;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -23,7 +23,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('package-intership::login');
+        session()->flush();
+        return view('package-intership::auth.login');
     }
 
     /**
@@ -99,18 +100,32 @@ class UserController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-   
+
         $credentials = $request->only('email', 'password');
         if (Auth::attempt(['user_email'=>$credentials['email'],'password'=>$credentials['password']])) {
-            return redirect()->intended('dashboard')
-                        ->withSuccess('Signed in');
+            $user = Auth::getUser();
+            $userType = UserType::getUserTypeById($user->usertype_id);
+            $request->session()->put('user_detail', $user);
+            $request->session()->put('user_type', $userType);
+            return redirect()->route('profile');
         }
   
-        return redirect("login")->withSuccess('Login details are not valid');
+        return view('package-intership::auth.login');
     }
 
     public function registration()
     {
-        return view('package-intership::register');
+        return view('package-intership::auth.register');
+    }
+
+    public function profile()
+    {
+        return view('package-intership::admin.profile');
+    }
+
+    public function logout(){
+        session()->flush();
+        Auth::logout();
+        return redirect()->route('login.form');
     }
 }

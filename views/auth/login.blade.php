@@ -10,8 +10,7 @@
                             <div class="text-center">
                                 <h4 class="text-dark mb-4">Welcome Back!</h4>
                             </div>
-                            <form class="user" method="post" action="{{ route('login.custom') }}">
-                                {{ csrf_field() }}
+                            <form class="user" method="post" action="{{ route('login') }}">
                                 <div class="form-group">
                                     <input class="form-control form-control-user" type="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="email">
                                 </div>
@@ -28,7 +27,7 @@
                                 </div><button class="btn btn-primary btn-block text-white btn-user" type="submit">Login</button>
 
                             </form>
-                            <div class="text-center"><a class="small" href="{{ route('register.user') }}">Create an Account!</a></div>
+                            <div class="text-center"><a class="small" href="{{ route('register') }}">Create an Account!</a></div>
                         </div>
                     </div>
                 </div>

@@ -25,48 +25,36 @@
 1. 'Form' => Collective\Html\FormFacade::class,
 1. 'Html' => Collective\Html\HtmlFacade::class,
 
-## Step 3: Delete user and password migration file in database/migrations
+## Step 3: Change model providers class Auth aliases to **config/auth.php**
+1. 'model' => Cansa\Intership\Models\User::class,
 
-## Step 4: Install publish
+## Step 4: Add middleware in app/Http/Kernel.php
+
+1.  \Illuminate\Session\Middleware\StartSession::class,
+1.  \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+
+
+## Step 5: Delete user and password migration file in database/migrations
+
+## Step 6: add session
+
+1. php artisan session:table
+
+## Step 7: Install publish
 
 1. php artisan vendor:publish --provider="Cansa\Intership\IntershipServiceProvider" --force
 
-## Step 5: Publish the package’s config and assets :
+## Step 8: Publish the package’s config and assets :
 
 1. php artisan vendor:publish --tag=lfm_config
 1. php artisan vendor:publish --tag=lfm_public
 
-## Step 6: Clear cache
+## Step 9: Clear cache
 1. php artisan route:clear
 1. php artisan config:clear
 1. php artisan storage:link
 
-## Step 7: Migrate and Seeder
+## Step 10: Migrate and Seeder
 Run the following
 1. php artisan migrate
 1. php artisan db:seed
-
-## Step 8: Add user
-
-foostart\laravel-filemanager\src\Handlers\ConfigHandler.php
-```
-<?php
-
-namespace Foostart\Filemanager\Handlers;
-
-
-class ConfigHandler
-{
-    public function userField()
-    {
-        //original
-        //return auth()->user()->id;
-        $auth = \App::make('authenticator');
-        $user = $auth->getLoggedUser();
-        if (empty($user)) {
-            return NULL;
-        }
-        return $user->id;
-    }
-}
-```

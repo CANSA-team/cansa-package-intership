@@ -12,10 +12,8 @@
                     </div>
                     <form class="user">
                         <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text"
-                                    id="exampleFirstName" placeholder="First Name" name="first_name"></div>
-                            <div class="col-sm-6"><input class="form-control form-control-user" type="text"
-                                    id="exampleFirstName" placeholder="Last Name" name="last_name"></div>
+                            <div class="col mb-3 mb-sm-0"><input class="form-control form-control-user" type="text"
+                                    id="exampleFirstName" placeholder="User Name" name="first_name"></div>
                         </div>
                         <div class="form-group"><input class="form-control form-control-user" type="email"
                                 id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email Address"
@@ -31,7 +29,7 @@
                             Account</button>
 
                     </form>
-                    <div class="text-center"><a class="small" href="login.html">Already have an account? Login!</a>
+                    <div class="text-center"><a class="small" href="{{ route('login.form')}}">Already have an account? Login!</a>
                     </div>
                 </div>
             </div>

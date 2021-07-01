@@ -5,8 +5,10 @@ namespace Cansa\Intership\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Model
+class User extends Authenticatable
 {
     //tên bảng
     protected $table = 'users';
@@ -27,10 +29,14 @@ class User extends Model
         'faculty_id'
     ];
 
+    public function getAuthPassword()
+    {
+        return $this->user_password;
+    }
+
     //lấy tất cả user (chưa join)
     static function getUsers()
     {
-
         return User::all();
     }
 

@@ -5,10 +5,7 @@
 
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
-
-    <!-- <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./fonts/fontawesome-all.min.css">
-    <link rel="stylesheet" href="./fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="./fonts/fontawesome5-overrides.min.css"> -->
-
-    <link rel="stylesheet" href="  {!! asset('vendor/package-intership/public/bootstrap/css/bootstrap.min.css') !!}">
+    <link rel="stylesheet" href="  {!! asset('packages/cansa/package-intership/bootstrap/css/bootstrap.min.css') !!}">
+    <link rel="stylesheet" href="  {!! asset('packages/cansa/package-intership/fonts/fontawesome-all.min.css') !!}">
+    <link rel="stylesheet" href="  {!! asset('packages/cansa/package-intership/fonts/font-awesome.min.css') !!}">
+    <link rel="stylesheet" href="  {!! asset('packages/cansa/package-intership/fonts/fontawesome5-overrides.min.css') !!}">

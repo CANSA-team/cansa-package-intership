@@ -10,12 +10,10 @@
 ## Step 1: Add service providers to **config/app.php**
 
 1. Cansa\Intership\IntershipServiceProvider::class,
-1. Intervention\Image\ImageServiceProvider::class,
 1. Collective\Html\HtmlServiceProvider::class,
 
 ## Step 2: Add class aliases to **config/app.php**
 
-1. 'Image' => Intervention\Image\Facades\Image::class,
 1. 'Input' => Illuminate\Support\Facades\Request::class,
 1. 'Form' => Collective\Html\FormFacade::class,
 1. 'Html' => Collective\Html\HtmlFacade::class,

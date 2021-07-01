@@ -14,7 +14,7 @@
     ],
     "license": "MIT",
     "require": {
-
+            "laravelcollective/html" : "6.2.1",
     },
     "autoload": {
         "psr-4": {

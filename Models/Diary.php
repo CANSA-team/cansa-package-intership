@@ -78,6 +78,6 @@ class Diary extends Model
     //lấy user liên quan đến diary
     public function user()
     {
-        return $this->hasOne(Week::class, 'user_id', 'user_id');
+        return $this->hasOne(User::class, 'user_id', 'user_id');
     }
 }

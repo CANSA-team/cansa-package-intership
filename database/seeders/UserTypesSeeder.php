@@ -15,9 +15,9 @@ class UserTypesSeeder extends Seeder
      */
     public function run()
     {
-        for ($i=0; $i < 20; $i++) { 
+        for ($i=0; $i < 10; $i++) { 
             DB::table('user_types')->insert([
-                'usertype_name' => Str::random(10),
+                'usertype_name' => 'Can sa',
                 'status' => 1,
             ]);
         }

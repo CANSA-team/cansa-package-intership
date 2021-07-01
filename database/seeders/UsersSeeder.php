@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UsersSeeder extends Seeder
@@ -15,14 +16,14 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        for ($i=0; $i < 20; $i++) { 
+        for ($i=0; $i < 10; $i++) { 
             DB::table('users')->insert([
-                'user_name' => Str::random(10),
-                'usertype_id' => mt_rand(1, 5),
-                'group_id' => mt_rand(1, 5),
-                'user_email' => Str::random(10),
-                'user_password' => Str::random(10),
-                'faculty_id' => mt_rand(1, 5),
+                'user_name' =>'Can sa',
+                'usertype_id' => '1',
+                'group_id' => '1',
+                'user_email' => 'cansa@gmail.com',
+                'user_password' => Hash::make('123456'),
+                'faculty_id' => '1',
                 'status' => 1,
             ]);
         }

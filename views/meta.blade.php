@@ -10,7 +10,5 @@
     <link rel="stylesheet" href="./fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="./fonts/font-awesome.min.css">
     <link rel="stylesheet" href="./fonts/fontawesome5-overrides.min.css"> -->
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('cansa/fonts/fontawesome-all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('fonts/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('fonts/fontawesome5-overrides.min.css') }}">
+
+    <link rel="stylesheet" href="  {!! asset('vendor/package-intership/public/bootstrap/css/bootstrap.min.css') !!}">

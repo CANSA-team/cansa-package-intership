@@ -7,14 +7,14 @@ use URL,
     Route,
     Redirect;
 use Foostart\Sample\Models\Samples;
-use Cansa\Intership\Models\Week;
+use Cansa\Intership\Models\Users;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public $data = array();
     public $weeks;
     public function __construct() {
-        $weeks = Week::getWeeks();
     }
 /**
      * Display a listing of the resource.
@@ -91,5 +91,26 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+   
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt(['user_email'=>$credentials['email'],'password'=>$credentials['password']])) {
+            return redirect()->intended('dashboard')
+                        ->withSuccess('Signed in');
+        }
+  
+        return redirect("login")->withSuccess('Login details are not valid');
+    }
+
+    public function registration()
+    {
+        return view('package-intership::register');
     }
 }

@@ -23,9 +23,6 @@ class IntershipServiceProvider extends ServiceProvider {
         // load view
         $this->loadViewsFrom(__DIR__ . '/Views', 'package-intership');
 
-        // include view composers
-        require __DIR__ . "/composers.php";
-
         // publish config
         $this->publishConfig();
 
@@ -54,7 +51,7 @@ class IntershipServiceProvider extends ServiceProvider {
 
     /**
      * Public config to system
-     * @source: vendor/foostart/package-intership/config
+     * @source: vendor/cansa/package-intership/config
      * @destination: config/
      */
     protected function publishConfig() {
@@ -67,7 +64,7 @@ class IntershipServiceProvider extends ServiceProvider {
 
     /**
      * Public view to system
-     * @source: vendor/foostart/package-intership/Views
+     * @source: vendor/cansa/package-intership/Views
      * @destination: resources/views/vendor/package-intership
      */
     protected function publishViews() {
@@ -85,7 +82,7 @@ class IntershipServiceProvider extends ServiceProvider {
     
     /**
      * Publish migrations
-     * @source: foostart/package-intership/database/migrations
+     * @source: cansa/package-intership/database/migrations
      * @destination: database/migrations
      */
     protected function publishMigrations() {        
@@ -96,7 +93,7 @@ class IntershipServiceProvider extends ServiceProvider {
     
     /**
      * Publish seeders
-     * @source: foostart/package-intership/database/seeders
+     * @source: cansa/package-intership/database/seeders
      * @destination: database/seeders
      */
     protected function publishSeeders() {        

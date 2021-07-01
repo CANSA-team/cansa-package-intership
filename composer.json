@@ -14,11 +14,7 @@
     ],
     "license": "MIT",
     "require": {
-<<<<<<< Updated upstream
-            "laravelcollective/html" : "6.2.1",
-=======
         "laravelcollective/html" : "6.2.1"
->>>>>>> Stashed changes
     },
     "autoload": {
         "psr-4": {

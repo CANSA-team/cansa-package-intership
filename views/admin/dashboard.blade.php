@@ -8,7 +8,7 @@
                     <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                         <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3"
                                 id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
-                            <a class="nav-link" href="./diaries.html"><span
+                            <a class="nav-link" href="{{ route('diaries') }}"><span
                                     class="d-none d-lg-inline mr-2 text-gray-600">Interships</span></a>
                             <ul class="navbar-nav flex-nowrap ml-auto">
                                 <div class="d-none d-sm-block topbar-divider"></div>

@@ -17,6 +17,7 @@ class CreateDiariesTable extends Migration
             $table->id('diary_id');
             $table->string('diary_name',255);
             $table->integer('user_id');
+            $table->integer('status');
             $table->timestamp('deleted_at')->nullable();           
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();

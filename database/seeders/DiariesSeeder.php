@@ -21,6 +21,7 @@ class DiariesSeeder extends Seeder
             DB::table('diaries')->insert([
                 'diary_name' => Str::random(10),
                 'user_id' => mt_rand(1, 20),
+                'status' => 1,
             ]);
         }
     }

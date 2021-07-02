@@ -8,11 +8,12 @@ use URL,
     Route,
     Redirect;
 use Foostart\Sample\Models\Samples;
+use Cansa\Intership\Models\Diary;
 use Cansa\Intership\Models\User;
 use Cansa\Intership\Models\UserType;
 use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class DiariesController extends Controller
 {
     public $data = array();
     public $weeks;
@@ -27,7 +28,8 @@ class UserController extends Controller
     public function index()
     {
         if (session()->has('user_detail')) {
-            return redirect()->route('profile');
+            $diaries = Diary::getDiaries();
+            return view('package-intership::admin.diaries.diaries',['diaries'=>$diaries]);
         } else {
             session()->flush();
             return view('package-intership::auth.login');
@@ -41,7 +43,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('package-intership::admin.diaries.create_update');
     }
 
     /**
@@ -71,9 +73,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $diary = Diary::getDiaryById($request->id);
+        return view('package-intership::admin.diaries.create_update',['diary'=>$diary]);
     }
 
     /**
@@ -83,9 +86,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        Diary::updateDiary($request);
+        return redirect()->route('diaries');
     }
 
     /**
@@ -94,33 +98,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(Request $request)
     {
-        //
+        Diary::deleteDiary($request);
+        return redirect()->route('diaries');
     }
 
-    public function login(Request $request)
+    public function createDiary(Request $request)
     {
-        return User::login($request);
-    }
-
-    public function registration()
-    {
-        return view('package-intership::auth.register');
-    }
-
-    public function profile()
-    {
-        return !empty(session()->get('user_detail')) ? view('package-intership::admin.profile') : redirect()->route('login.form');
-    }
-
-    public function logout()
-    {
-        return User::logout();
-    }
-
-    public function regist(Request $request)
-    {
-        return User::regist($request);
+        Diary::insertDiary($request);
+        return redirect()->route('diaries');
     }
 }

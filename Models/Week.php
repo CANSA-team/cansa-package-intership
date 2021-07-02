@@ -83,6 +83,6 @@ class Week extends Model
     //lấy diary liên quan đến week
     public function diaries()
     {
-        return $this->hasOne(Diary::class, 'diary_id', 'diary_id');
+        return $this->belongsTo(Diary::class, 'diary_id', 'diary_id');
     }
 }

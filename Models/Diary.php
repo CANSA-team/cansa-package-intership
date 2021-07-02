@@ -11,9 +11,6 @@ class Diary extends Model
     
     //khóa chính
     protected $primaryKey = 'diary_id';
-    
-    //định dạng ngày tháng
-    protected $dateFormat = 'd-m-Y';
 
     //các cột được phép thay đổi
     protected $fillable = [
@@ -35,37 +32,25 @@ class Diary extends Model
 
     //thêm 1 diary ($request lấy từ Request $request)
     static function insertDiary($request){
-        $diary = new Diary();
-        $diary->diary_name = $request->diary_name;
-        $diary->user_id = $request->user_id;
-        $diary->status = $request->status;
-        $diary->save();
+        return Diary::create([
+            'diary_name' => $request->diary_name,
+            'user_id' => session()->get('user_detail')->user_id,
+            'status' => 1,
+        ]);
     }
 
     //cập nhật, chỉnh sửa 1 diary ($request lấy từ Request $request)
     static function updateDiary($request){
         $diary = Diary::getDiaryById($request->diary_id);
         $diary->diary_name = $request->diary_name;
-        $diary->user_id = $request->user_id;
-        $diary->status = $request->status;
+        $diary->user_id = session()->get('user_detail')->user_id;
+        $diary->status = 1;
         $diary->save();
     }
 
     //xóa 1 diary ($request lấy từ Request $request,bao gồm weeks, diaries_contents, comments có liên quan)
     static function deleteDiary($request){
         $diary = Diary::getDiaryById($request->diary_id);
-        $weeks = $diary->weeks();
-        foreach ($weeks as $week){
-            $diaries_contents = $week->diaries();
-            foreach ($diaries_contents as $diary_content){
-                $comments = $diary_content->comments();
-                foreach ($comments as $comment){
-                    $comment->delete();
-                }
-                $diaries_contents->delete();
-            }
-            $week->delete();
-        }
         $diary->delete();
     }
 
@@ -78,6 +63,6 @@ class Diary extends Model
     //lấy user liên quan đến diary
     public function user()
     {
-        return $this->hasOne(User::class, 'user_id', 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 }

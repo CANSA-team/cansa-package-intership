@@ -1,4 +1,9 @@
-@extends('package-intership::admin.dashboard')
+@extends('package-intership::auth.dashboard')
+@if (isset($diary))
+    @section('title', 'Diary-Update')
+@else
+    @section('title', 'Diary-Create')
+@endif
 @section('content-dashboard')
 
     <div class="container-fluid">
@@ -13,7 +18,7 @@
             <div class="card-body">
                 @if (isset($diary))
                     <form method="post" action="{{ route('diary.update') }}">
-                        <input hidden name="diary_id" value="{{$diary->diary_id}}"></input>
+                        <input hidden name="diary_id" value="{{$diary->diary_id}}">
                     @else
                         <form method="post" action="{{ route('diary.store') }}">
                 @endif
@@ -22,7 +27,7 @@
                         <div class="form-group"><label for="username"><strong>Diary Name</strong></label>
 
                             @if (isset($diary))
-                                <input class="form-control" type="text" placeholder="{{ $diary->diary_name }}"
+                                <input class="form-control" type="text" value="{{ $diary->diary_name }}"
                                     name="diary_name"></input>
                             @else
                                 <input class="form-control" type="text" name="diary_name"></input>

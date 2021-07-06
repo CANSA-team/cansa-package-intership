@@ -3,11 +3,8 @@
 namespace Cansa\Intership;
 
 use Illuminate\Support\ServiceProvider;
-use LaravelAcl\Authentication\Classes\Menu\SentryMenuFactory;
-use URL,
-    Route;
 use Illuminate\Http\Request;
-
+use Illuminate\Pagination\Paginator;
 class IntershipServiceProvider extends ServiceProvider {
 
     /**
@@ -23,9 +20,6 @@ class IntershipServiceProvider extends ServiceProvider {
         // load view
         $this->loadViewsFrom(__DIR__ . '/Views', 'package-intership');
 
-        // publish config
-        $this->publishConfig();
-
         // publish views
         //$this->publishViews();
 
@@ -38,6 +32,7 @@ class IntershipServiceProvider extends ServiceProvider {
         // public seeders
         $this->publishSeeders();
 
+        Paginator::useBootstrap();
     }
 
     /**
@@ -48,18 +43,6 @@ class IntershipServiceProvider extends ServiceProvider {
     public function register() {
         include __DIR__ . '/routes.php';
     }
-
-    /**
-     * Public config to system
-     * @source: vendor/cansa/package-intership/config
-     * @destination: config/
-     */
-    protected function publishConfig() {
-        $this->publishes([
-            __DIR__ . '/config/package-intership.php' => config_path('package-intership.php'),
-                ], 'config');
-    }
-
     
 
     /**

@@ -1,4 +1,5 @@
 @extends('package-intership::layout')
+@section('title','Login')
 @section('content')
 <body class="bg-gradient-primary">
     <div class="container">
@@ -19,12 +20,11 @@
                                     <input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Password" name="password">
                                     
                                 </div>
-                                <div class="form-group">
-                                    <div class="custom-control custom-checkbox small">
-                                        <div class="form-check"><input class="form-check-input custom-control-input" type="checkbox" id="formCheck-1"><label class="form-check-label custom-control-label" for="formCheck-1">Remember
-                                                Me</label></div>
-                                    </div>
-                                </div><button class="btn btn-primary btn-block text-white btn-user" type="submit">Login</button>
+                                
+                                @if ($errors->has('status'))
+                                    <span class="text-danger">{{ $errors->first('status') }}</span>
+                                @endif
+                                <button class="btn btn-primary btn-block text-white btn-user" type="submit">Login</button>
 
                             </form>
                             <div class="text-center"><a class="small" href="{{ route('register') }}">Create an Account!</a></div>

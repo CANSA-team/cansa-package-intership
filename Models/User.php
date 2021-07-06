@@ -2,11 +2,7 @@
 
 namespace Cansa\Intership\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
@@ -105,51 +101,27 @@ class User extends Authenticatable
     //lấy user_type liên quan đến user
     public function userType()
     {
-        return $this->hasOne(UserType::class, 'usertype_id', 'usertype_id');
+        return $this->belongsTo(UserType::class, 'usertype_id', 'usertype_id');
     }
 
-    //đăng nhập
-    public static function login($request)
-    {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt(['user_email' => $credentials['email'], 'password' => $credentials['password']])) {
-            $user = Auth::getUser();
-            $userType = UserType::getUserTypeById($user->usertype_id);
-            $request->session()->put('user_detail', $user);
-            $request->session()->put('user_type', $userType);
-            return redirect()->route('profile');
-        }
-
-        return view('package-intership::auth.login');
-    }
-
-    //đăng xuất
-    public static function logout()
-    {
-        session()->flush();
-        Auth::logout();
-        return redirect()->route('login.form');
-    }
 
     //đăng ký
     public static function regist($request)
     {
-        if (!session()->has('user_detail')) {
-            if ($request->password == $request->password_repeat) {
-                $request->validate([
-                    'user_name' => 'required',
-                    'user_email' => 'required',
-                    'password' => 'required',
-                ]);
-
+        
+        if (!Auth::check()) {
+            if ($request->password == $request->password_repeat && !User::check($request)) {
                 User::insertUser($request);
-                return redirect()->route('profile');
+                return redirect()->route('login.form');
+            } else {
+                return redirect()->route('register');
             }
         }
+    }
+
+    //kiểm tra user đã tồn tai hay chưa
+    public static function check($request)
+    {
+        return User::where('user_email', '=', $request->user_email)->exists();
     }
 }

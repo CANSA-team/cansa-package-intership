@@ -3,11 +3,11 @@
 namespace Cansa\Intership\Controllers;
 
 use App\Http\Controllers\Controller;
+use Cansa\Intership\Models\DiaryContent;
 use Illuminate\Http\Request;
-use Cansa\Intership\Models\Diary;
 use Illuminate\Support\Facades\Auth;
 
-class DiariesController extends Controller
+class DiaryContentController extends Controller
 {
     public $data = array();
     public $weeks;
@@ -18,14 +18,14 @@ class DiariesController extends Controller
         $view = '';
         switch (Auth::user()->userType->usertype_name) {
             case 'Student':
-                $view = 'package-intership::student.diaries.diaries';
+                $view = 'package-intership::student.diary-content.content';
                 break;
             case 'Admin':
-                $view = 'package-intership::admin.diaries.diaries';
+                $view = 'package-intership::admin.diary-content.content';
                 break;
             case 'Teacher':
             case 'Trainer':
-                $view = 'package-intership::teacher-trainer.diaries.diaries';
+                $view = 'package-intership::teacher-trainer.diary-content.content';
                 break;
         }
         return $view;
@@ -39,10 +39,10 @@ class DiariesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {      
-        $diaries = Diary::getDiaries();
-        return view(DiariesController::getView(), ['diaries' => $diaries]);  
+    public function index(Request $request)
+    {
+        $contents = DiaryContent::getDiariesContents($request->content_id);
+        return view(DiaryContentController::getView(), ['contents' => $contents]);
     }
 
     /**
@@ -51,10 +51,11 @@ class DiariesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {    
-        return view('package-intership::admin.diaries.create_update');   
+    {
+        return view('package-intership::admin.diary-content.create_update');
+        
     }
-
+  
     /**
      * Show the form for editing the specified resource.
      *
@@ -62,10 +63,11 @@ class DiariesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request)
-    {   
-        $diary = Diary::getDiaryById($request->id);
-        return view('package-intership::admin.diaries.create_update', ['diary' => $diary]);
-    
+    {
+
+        $content = DiaryContent::getDiaryContentById($request->id);
+        return view('package-intership::admin.diary-content.create_update', ['content' => $content]);
+      
     }
 
     /**
@@ -77,8 +79,8 @@ class DiariesController extends Controller
      */
     public function update(Request $request)
     {
-        Diary::updateDiary($request);
-        return redirect()->route('diaries');
+        DiaryContent::updateDiaryContent($request);
+        return redirect()->route('diary-content', ['content_id' => $request->content_id]);
     }
 
     /**
@@ -89,29 +91,27 @@ class DiariesController extends Controller
      */
     public function delete(Request $request)
     {
-        Diary::deleteDiary($request);
-        return redirect()->route('diaries');
+        DiaryContent::deleteDiaryContent($request);
+        return redirect()->route('diary-content', ['content_id' => $request->content_id]);
     }
 
-    //tạo ra 1 diary
-    public function createDiary(Request $request)
+    public function createDiaryContent(Request $request)
     {
-        Diary::insertDiary($request);
-        return redirect()->route('diaries');
+        DiaryContent::insertDiaryContent($request);
+        return redirect()->route('diary-content', ['content_id' => $request->content_id]);
     }
 
-    //search diaries theo request
-    public function search()
+    //search diary content theo request
+    public function search(Request $request)
     {
-        $search = $_GET['key'];
-        $diaries = Diary::searchDiary($search);
+        $contents = DiaryContent::searchWeek($request);
 
-        return view(DiariesController::getView(), ['diaries' => $diaries]);
+        return view(DiaryContentController::getView(), ['contents' => $contents]);
     }
 
-    //thay đổi status diary
+    //thay đổi status diary content
     public function changeStatus(Request $request)
     {
-        Diary::changeStatus($request);
+        DiaryContent::changeStatus($request);
     }
 }

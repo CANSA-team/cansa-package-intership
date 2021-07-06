@@ -17,7 +17,7 @@ class CreateCommentsTable extends Migration
             $table->integer('user_id');
             $table->string('comment_content',255);
             $table->integer('comment_rating');           
-            $table->string('comment_type',255);
+            $table->integer('comment_type');
             $table->integer('status');
             $table->timestamp('deleted_at')->nullable();           
             $table->timestamp('created_at')->nullable();

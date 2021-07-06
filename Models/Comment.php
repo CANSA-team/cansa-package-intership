@@ -1,9 +1,8 @@
 <?php
+namespace Cansa\Intership\Models;
 
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Comment extends Model
 {
@@ -11,10 +10,8 @@ class Comment extends Model
     protected $table = 'comments';
 
     //khóa chính
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'comment_id';
 
-    //định dạng ngày tháng
-    protected $dateFormat = 'd-m-Y';
 
     //các cột được phép thay đổi
     protected $fillable = [
@@ -27,9 +24,10 @@ class Comment extends Model
     ];
 
     //lấy tất cả comments (chưa join)
-    static function getComments()
+    static function getComments($content_id)
     {
-        return Comment::all();
+        $comments = Comment::where('comment_type', $content_id)->orderBy('comment_id', 'DESC')->paginate(10);
+        return $comments;
     }
 
     //lấy 1 comments theo id (id lấy từ request,chưa join)
@@ -39,15 +37,14 @@ class Comment extends Model
     }
 
     //thêm 1 comment ($request lấy từ Request $request)
-    static function insertDiaryContent($request)
+    static function insertComment($request)
     {
         $comment = new Comment();
-        $comment->user_id = $request->user_id;
+        $comment->user_id = Auth::user()->user_id;
         $comment->comment_content = $request->comment_content;
         $comment->comment_rating = $request->comment_rating;
-        $comment->comment_type = $request->comment_type;
-        $comment->comment_id = $request->comment_id;
-        $comment->status = $request->status;
+        $comment->comment_type = $request->content_id;
+        $comment->status = 1;
         $comment->save();
     }
 
@@ -55,19 +52,17 @@ class Comment extends Model
     static function updateComment($request)
     {
         $comment = Comment::getCommentById($request->id);
-        $comment->user_id = $request->user_id;
         $comment->comment_content = $request->comment_content;
         $comment->comment_rating = $request->comment_rating;
-        $comment->comment_type = $request->comment_type;
-        $comment->comment_id = $request->comment_id;
-        $comment->status = $request->status;
+        $comment->comment_type = $request->content_id;
+        $comment->status = 1;
         $comment->save();
     }
 
     //xóa 1 comment ($request lấy từ Request $request, bao gồm comments có liên quan)
     static function deleteComment($request)
     {
-        $comment = Comment::getCommentById($request->id);
+        $comment = Comment::getCommentById($request->comment_id);
         $comment->delete();
     }
 
@@ -81,5 +76,21 @@ class Comment extends Model
     public function weeks()
     {
         return $this->hasOne(DiaryContent::class, 'diarycontent_id', 'comment_id');
+    }
+    
+    //search comments gần giống key
+    static function searchComments($request)
+    {
+        $key = $request->key;
+        $content_id = $request->content_id;
+        $comments = Comment::select('comments.*')->join('users', 'users.user_id', 'comments.user_id')->where('users.user_name', 'like', '%' . $key . '%')->where('comments.comment_type', '=', $content_id)->orderBy('comments.comment_id', 'DESC')->paginate(10);
+        return $comments;
+    }
+
+    //chỉnh status
+    static function changeStatus($request){
+        $comment = Comment::getCommentById($request->id);
+        $comment->status = $request->status;
+        $comment->save();
     }
 }

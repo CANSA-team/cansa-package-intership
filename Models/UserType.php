@@ -1,7 +1,6 @@
 <?php
 
 namespace Cansa\Intership\Models;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UserType extends Model

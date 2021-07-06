@@ -1,30 +1,220 @@
 <?php
 
-use Illuminate\Session\TokenMismatchException;
-use Cansa\Intership\Controllers\Admin\DiaryAdminController;
+//login
+Route::group([
+    'middleware' => [],
+    'namespace' => 'Cansa\Intership\Controllers',
+], function () {
+    Route::get('login', [
+        'as' => 'login.form',
+        'uses' => 'UserController@index'
+    ]);
+    
+    Route::post('log', [
+        'as' => 'login',
+        'uses' => 'UserController@login'
+    ]);
+    
+    Route::get('logout', [
+        'as' => 'logout',
+        'uses' => 'UserController@logout'
+    ]);
+    Route::get('registration', [
+        'as' => 'register',
+        'uses' => 'UserController@registration'
+    ]);
 
-Route::get('login', [Cansa\Intership\Controllers\UserController::class, 'index'])->name('login.form');
-Route::post('log', [Cansa\Intership\Controllers\UserController::class, 'login'])->name('login'); 
-Route::get('logout', [Cansa\Intership\Controllers\UserController::class, 'logout'])->name('logout');
+    Route::post('regist', [
+        'as' => 'regist',
+        'uses' => 'UserController@regist'
+    ]);
+});
 
-//profile
-Route::get('profile', [Cansa\Intership\Controllers\UserController::class, 'profile'])->name('profile'); 
+//web
+Route::group([
+    'middleware' => ['Cansa\Intership\Middleware\CheckAuth'],
+    'namespace' => 'Cansa\Intership\Controllers',
+], function () {
 
-//register
-Route::get('registration', [Cansa\Intership\Controllers\UserController::class, 'registration'])->name('register');
-Route::post('regist', [Cansa\Intership\Controllers\UserController::class, 'regist'])->name('regist');
+    Route::get('profile', [
+        'as' => 'profile',
+        'uses' => 'UserController@profile'
+    ]);
 
-//diaries
-Route::get('diaries', [Cansa\Intership\Controllers\DiariesController::class, 'index'])->name('diaries');
+    /**
+     * diaries
+     */
+    Route::get('diaries', [
+        'as' => 'diaries',
+        'uses' => 'DiariesController@index'
+    ]);
 
-//create diary
-Route::get('diary/create', [Cansa\Intership\Controllers\DiariesController::class, 'create'])->name('diary.create');
-Route::post('diaries/cr', [Cansa\Intership\Controllers\DiariesController::class, 'createDiary'])->name('diary.store');
+    Route::get('diary/create', [
+        'as' => 'diary.create',
+        'uses' => 'DiariesController@create'
+    ]);
 
-//update diary
-Route::get('diaries/update', [Cansa\Intership\Controllers\DiariesController::class, 'edit'])->name('diary.edit');
-Route::post('diaries/ud', [Cansa\Intership\Controllers\DiariesController::class, 'update'])->name('diary.update');
+    Route::post('diaries/cr', [
+        'as' => 'diary.store',
+        'uses' => 'DiariesController@createDiary'
+    ]);
 
+    Route::get('diaries/update', [
+        'as' => 'diary.edit',
+        'uses' => 'DiariesController@edit'
+    ]);
 
-//delete diary
-Route::get('diaries/delete', [Cansa\Intership\Controllers\DiariesController::class, 'delete'])->name('diary.delete');
+    Route::post('diaries/ud', [
+        'as' => 'diary.update',
+        'uses' => 'DiariesController@update'
+    ]);
+
+    Route::get('diaries/delete', [
+        'as' => 'diary.delete',
+        'uses' => 'DiariesController@delete'
+    ]);
+
+    Route::get('diaries/search', [
+        'as' => 'diary.search',
+        'uses' => 'DiariesController@search'
+    ]);
+
+    Route::post('diaries/status', [
+        'as' => 'diary.status',
+        'uses' => 'DiariesController@changeStatus'
+    ]);
+
+    /**
+    * week
+    */
+    Route::get('weeks', [
+        'as' => 'weeks',
+        'uses' => 'WeeksController@index'
+    ]);
+
+    Route::get('weeks/create', [
+        'as' => 'weeks.create',
+        'uses' => 'WeeksController@create'
+    ]);
+
+    Route::post('week/cr', [
+        'as' => 'week.store',
+        'uses' => 'WeeksController@createWeek'
+    ])->middleware('Cansa\Intership\Middleware\CheckDay');
+
+    Route::get('week/update', [
+        'as' => 'week.edit',
+        'uses' => 'WeeksController@edit'
+    ]);
+
+    Route::post('week/ud', [
+        'as' => 'week.update',
+        'uses' => 'WeeksController@update'
+    ])->middleware('Cansa\Intership\Middleware\CheckDay');
+
+    Route::get('week/delete', [
+        'as' => 'week.delete',
+        'uses' => 'WeeksController@delete'
+    ]);
+
+    Route::get('week/search', [
+        'as' => 'week.search',
+        'uses' => 'WeeksController@search'
+    ]);
+
+    Route::post('week/status', [
+        'as' => 'week.status',
+        'uses' => 'WeeksController@changeStatus'
+    ]);
+
+    Route::post('week/status-check', [
+        'as' => 'week.status-check',
+        'uses' => 'WeeksController@changeStatusCheck'
+    ]);
+
+    /**
+     * Diary Content
+     */
+    Route::get('diary-content', [
+        'as' => 'diary-content',
+        'uses' => 'DiaryContentController@index'
+    ]);
+
+    Route::get('diary-content/create', [
+        'as' => 'diary-content.create',
+        'uses' => 'DiaryContentController@create'
+    ]);
+
+    Route::post('diary-content/cr', [
+        'as' => 'diary-content.store',
+        'uses' => 'DiaryContentController@createDiaryContent'
+    ]);
+
+    Route::get('diary-content/update', [
+        'as' => 'diary-content.edit',
+        'uses' => 'DiaryContentController@edit'
+    ]);
+
+    Route::post('diary-content/ud', [
+        'as' => 'diary-content.update',
+        'uses' => 'DiaryContentController@update'
+    ]);
+
+    Route::get('diary-content/delete', [
+        'as' => 'diary-content.delete',
+        'uses' => 'DiaryContentController@delete'
+    ]);
+
+    Route::get('diary-content/search', [
+        'as' => 'diary-content.search',
+        'uses' => 'DiaryContentController@search'
+    ]);
+
+    Route::post('diary-content/status', [
+        'as' => 'diary-content.status',
+        'uses' => 'DiaryContentController@changeStatus'
+    ]);
+
+    /**
+     * comment
+     */
+    Route::get('comment', [
+        'as' => 'comment',
+        'uses' => 'CommentController@index'
+    ]);
+
+    Route::get('comment/create', [
+        'as' => 'comment.create',
+        'uses' => 'CommentController@create'
+    ]);
+
+    Route::post('comment/cr', [
+        'as' => 'comment.store',
+        'uses' => 'CommentController@createComment'
+    ]);
+
+    Route::get('comment/update', [
+        'as' => 'comment.edit',
+        'uses' => 'CommentController@edit'
+    ]);
+
+    Route::post('comment/ud', [
+        'as' => 'comment.update',
+        'uses' => 'CommentController@update'
+    ]);
+
+    Route::get('comment/delete', [
+        'as' => 'comment.delete',
+        'uses' => 'CommentController@delete'
+    ]);
+
+    Route::get('comment/search', [
+        'as' => 'comment.search',
+        'uses' => 'CommentController@search'
+    ]);
+
+    Route::post('comment/status', [
+        'as' => 'comment.status',
+        'uses' => 'CommentController@changeStatus'
+    ]);
+});

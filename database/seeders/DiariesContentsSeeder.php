@@ -15,14 +15,14 @@ class DiariesContentsSeeder extends Seeder
      */
     public function run()
     {
-        for ($i=0; $i < 20; $i++) { 
+        for ($i=0; $i < 81; $i++) { 
             DB::table('diaries_contents')->insert([
                 'diarycontent_weekday' => Str::random(10),
                 'diarycontent_work' => Str::random(50),
                 'diarycontent_content' => Str::random(50),
                 'diarycontent_note' => Str::random(50),
-                'weeks_id' => mt_rand(1, 20),
-                'status' => 1,
+                'weeks_id' => mt_rand(1, 27),
+                'status' => mt_rand(0, 1)
             ]);
         }
     }

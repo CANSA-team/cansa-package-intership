@@ -2,7 +2,6 @@
 
 namespace Cansa\Intership\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Week extends Model
@@ -13,12 +12,9 @@ class Week extends Model
     //khóa chính
     protected $primaryKey = 'week_id';
 
-    //định dạng ngày tháng
-    protected $dateFormat = 'd-m-Y';
-
     //các cột được phép thay đổi
     protected $fillable = [
-        'week_weekdays', 
+        'week_weekdays',
         'status_check',
         'status',
         'start_date',
@@ -27,62 +23,93 @@ class Week extends Model
     ];
 
     //lấy tất cả week (chưa join)
-    static function getWeeks(){
-        return Week::all();
+    static function getWeeks($diary_id)
+    {
+        $week = Week::where('diary_id', $diary_id)->orderBy('week_id', 'DESC')->paginate(10);
+        return $week;
     }
-    
+
     //lấy 1 week theo id (id lấy từ request,chưa join)
-    static function getWeekById($id){
+    static function getWeekById($id)
+    {
         return Week::find($id);
     }
 
     //thêm 1 week ($request lấy từ Request $request)
-    static function insertWeek($request){
+    static function insertWeek($request)
+    {     
         $week = new Week();
         $week->week_weekdays = $request->week_weekdays;
-        $week->status_check = $request->status_check;
-        $week->status = $request->status;
+        $week->status_check = 0;
+        $week->status = 1;
         $week->start_date = $request->start_date;
         $week->end_date = $request->end_date;
         $week->diary_id = $request->diary_id;
-        $week->save();
+        $week->save();   
     }
 
     //cập nhật, chỉnh sửa 1 week ($request lấy từ Request $request)
-    static function updateWeek($request){
+    static function updateWeek($request)
+    {  
+        
         $week = Week::getWeekById($request->week_id);
         $week->week_weekdays = $request->week_weekdays;
-        $week->status_check = $request->status_check;
-        $week->status = $request->status;
-        $week->start_date = $request->start_date;
-        $week->end_date = $request->end_date;
+        $week->status_check = 0;
+        $week->status = 1;
+        $week->start_date = date('Y-m-d H:i:s', strtotime($request->start_date));
+        $week->end_date = date('Y-m-d H:i:s', strtotime($request->end_date));
         $week->diary_id = $request->diary_id;
-        $week->save();
+        $week->save();       
     }
 
     //xóa 1 week ($request lấy từ Request $request, bao gồm diaries_contents, comments có liên quan)
-    static function deleteWeek($request){
+    static function deleteWeek($request)
+    {
         $week = Week::getWeekById($request->week_id);
-        $diaries_contents = $week->diaries();
-            foreach ($diaries_contents as $diary_content){
-                $comments = $diary_content->comments();
-                foreach ($comments as $comment){
-                    $comment->delete();
-                }
-                $diaries_contents->delete();
+        foreach ($week->diaryContents as $diary_content) {
+            foreach ($diary_content->comments as $comment) {
+                $comment->delete();
             }
+            $diary_content->delete();
+        }
         $week->delete();
     }
 
     //lấy diaries_contents liên quan đến week
-    public function diariesContents()
+    public function diaryContents()
     {
-        return $this->hasMany(DiaryContent::class, 'week_id', 'week_id');
+        return $this->hasMany(DiaryContent::class, 'weeks_id', 'week_id');
     }
 
     //lấy diary liên quan đến week
     public function diaries()
     {
         return $this->belongsTo(Diary::class, 'diary_id', 'diary_id');
+    }
+
+    static function searchWeek($request)
+    {
+        $key = $request->key;
+        $diary_id = $request->diary_id;
+
+        $week = Week::where('weeks.week_weekdays', 'like', '%' . $key . '%')->where('weeks.diary_id', '=', $diary_id)->orderBy('weeks.week_id', 'DESC')->paginate(10);
+
+        return $week;
+    }
+
+    //chỉnh status
+    static function changeStatus($request)
+    {
+        $week = Week::getWeekById($request->week_id);
+        $week->status = $request->status;
+        $week->save();
+    }
+
+    //chỉnh status
+    static function changeStatusCheck($request)
+    {
+        $week = Week::getWeekById($request->week_id);
+        $week->status_check = $request->status_check;
+        $week->save();
     }
 }

@@ -4,12 +4,7 @@ namespace Cansa\Intership\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use URL,
-    Route,
-    Redirect;
-use Foostart\Sample\Models\Samples;
 use Cansa\Intership\Models\User;
-use Cansa\Intership\Models\UserType;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -25,102 +20,53 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        if (session()->has('user_detail')) {
-            return redirect()->route('profile');
-        } else {
-            session()->flush();
-            return view('package-intership::auth.login');
-        }
+    { 
+        return view('package-intership::auth.login');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
+    //đăng nhập
     public function login(Request $request)
     {
-        return User::login($request);
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+         $credentials = $request->only('email', 'password');
+        if (Auth::attempt(['user_email' => $credentials['email'], 'password' => $credentials['password']])) {
+            return redirect()->route('profile');
+        }
+        return back()->withErrors(['status' => ['Email or password does not match']]);
     }
 
+    //chuyển đến form đăng ký
     public function registration()
     {
         return view('package-intership::auth.register');
     }
 
+    //hiển thị thông tin tài khoản
     public function profile()
     {
-        return !empty(session()->get('user_detail')) ? view('package-intership::admin.profile') : redirect()->route('login.form');
+        return view('package-intership::auth.profile');
     }
 
+    //đăng xuất
     public function logout()
     {
-        return User::logout();
+        session()->flush();
+        Auth::logout();
+        return redirect()->route('login.form');
     }
 
+    //đăng ký user
     public function regist(Request $request)
     {
+        $request->validate([
+            'user_name' => 'required|min:1',
+            'user_email' => 'required|email|unique:users,user_email',
+            'password' => 'required|max:24|min:6',
+            'password_repeat' => 'required_with:password|same:password|max:24|min:6'
+        ]);
         return User::regist($request);
     }
 }

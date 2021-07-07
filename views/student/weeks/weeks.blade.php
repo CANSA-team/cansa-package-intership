@@ -1,30 +1,7 @@
 @extends('package-intership::auth.dashboard')
 @section('title','Weeks')
 @section('content-dashboard')
-<style>
-    .ovrl{
-            max-height: 30vh;
-            overflow-y: auto;
-        }
-    .table{
-        min-height: 80vh;
-    }
-    .small {
-            width: 100%;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            overflow: hidden;
-    }
-    .dropdown-menu .show {
-        height: 100%;
-    }
-
-    .font-weight-bold {
-        width: 100%;
-    }
-</style>
-    <div class="container-fluid">
+ <div class="container-fluid">
         <nav class="navbar navbar-light navbar-expand-md">
             <div class="navbar-brand" href="#">Weeks</div>
             <!-----------------SEARCH ---------------------->
@@ -33,6 +10,9 @@
                 <input class="form-control mr-sm-2" name="key" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
+            @if (isset($_GET['key']))
+                <a class="btn btn-outline-primary mr-sm-2 dd" href="{{ route('weeks',['diary_id'=>$_GET['diary_id']]) }}">Show All</a>
+            @endif
             <a href="{{ route('weeks.create', ['diary_id' => $_GET['diary_id']]) }}"
                 class="btn btn-primary btn-sm ml-auto" type="button">Add Week</a>
         </nav>

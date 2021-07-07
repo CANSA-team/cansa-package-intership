@@ -2,22 +2,16 @@
 @section('title','Diaries')
 @section('content-dashboard')
 <div class="container-fluid">
-    <style>
-        .ovrl{
-            max-height: 30vh;
-            overflow-y: auto;
-        }
-        .table{
-            min-height: 80vh;
-        }
-    </style>
-        <nav class="navbar navbar-light navbar-expand-md">
+         <nav class="navbar navbar-light navbar-expand-md">
             <div class="navbar-brand" href="#">Diaries</div>
             <form action="{{ route('diary.search') }}" method="GET" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" name="key" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
-
+            @if (isset($_GET['key']))
+                <a class="btn btn-outline-primary mr-sm-2 dd" href="{{ route('diaries') }}">Show All</a>
+            @endif
+           
         </nav>
         <div class="card shadow">
             <div class="card-body">

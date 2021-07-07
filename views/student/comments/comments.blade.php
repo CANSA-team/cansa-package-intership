@@ -1,13 +1,6 @@
 @extends('package-intership::auth.dashboard')
     @section('title', 'Comment')
     @section('content-dashboard')
-    <style>
-        .text-content {
-            max-width: 200px;
-            min-width: 190px;
-        }
-
-    </style>
     <div class="container-fluid">
         <div class="card shadow mb-3">
             <div class="card-header py-3">
@@ -50,10 +43,14 @@
                 <input class="form-control mr-sm-2" name="key" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
+            @if (isset($_GET['key']))
+                <a class="btn btn-outline-primary mr-sm-2 dd" href="{{ route('comment',['content_id'=>$_GET['content_id']]) }}">Show All</a>
+            @endif
         </nav>
         <div class="card shadow">
             <div class="card-body">
                 <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                @if(count($comments) != 0)    
                     <table class="table my-0" id="dataTable">
                         <thead>
                             <tr>
@@ -94,6 +91,9 @@
                             </tr>
                         </tfoot>
                     </table>
+                @else
+                    <h1 style="margin:0 auto;width:120px;">NONE</h1>
+                @endif
                 </div>
                 <div class="row">
                     <div class="col-md-6">

@@ -13,6 +13,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="  {!! asset('packages/cansa/package-intership/fonts/fontawesome5-overrides.min.css') !!}">
 </head>
+<style>
+    .small {
+        width: 100%;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .dd{
+        margin-left:10px;
+    }
+    .dropdown-menu .show {
+        height: 100%; 
+    }
+    .font-weight-bold {
+        width: 100%;
+    }
+    .ovrl{
+        max-height: 30vh;
+        overflow-y: auto;
+    }
+    .table{
+        min-height: 80vh;       
+    }
+</style>
     <!-- Content -->
     @yield('content')
 

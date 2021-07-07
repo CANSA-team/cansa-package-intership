@@ -50,12 +50,16 @@
                 <input class="form-control mr-sm-2" name="key" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
+            @if (isset($_GET['key']))
+                <a class="btn btn-outline-primary mr-sm-2 dd" href="{{ route('comment',['content_id'=>$_GET['content_id']]) }}">Show All</a>
+            @endif
             <a href="{{ route('comment.create', ['content_id' => $_GET['content_id']]) }}"
                 class="btn btn-primary btn-sm ml-auto" type="button">Add Comment</a>
         </nav>
         <div class="card shadow">
             <div class="card-body">
                 <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                @if(count($comments) != 0)  
                     <table class="table my-0" id="dataTable">
                         <thead>
                             <tr>
@@ -120,6 +124,9 @@
                             </tr>
                         </tfoot>
                     </table>
+                    @else
+                        <h1 style="margin:0 auto;width:120px;">NONE</h1>
+                    @endif
                 </div>
                 <div class="row">
                     <div class="col-md-6">

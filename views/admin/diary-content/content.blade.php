@@ -1,19 +1,6 @@
 @extends('package-intership::auth.dashboard')
 @section('title', 'Contents')
 @section('content-dashboard')
-    <style>
-        .text-content {
-            max-width: 200px;
-            min-width: 190px;
-        }
-        .ovrl{
-            max-height: 30vh;
-            overflow-y: auto;
-        }
-        .table{
-            min-height: 80vh;
-        }
-    </style>
     <div class="container-fluid">
         <nav class="navbar navbar-light navbar-expand-md">
             <div class="navbar-brand" href="#">Diaries Contents</div>
@@ -23,6 +10,9 @@
                 <input class="form-control mr-sm-2" name="key" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
+            @if (isset($_GET['key']))
+                <a class="btn btn-outline-primary mr-sm-2 dd" href="{{route('diary-content', ['content_id' => $_GET['content_id']])}}">Show All</a>
+            @endif
             <a href="{{ route('diary-content.create', ['content_id' => $_GET['content_id']]) }}"
                 class="btn btn-primary btn-sm ml-auto" type="button">Add Diary Content</a>
         </nav>

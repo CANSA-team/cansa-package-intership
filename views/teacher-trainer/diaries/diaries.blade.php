@@ -16,6 +16,7 @@
         <div class="card shadow">
             <div class="card-body">
                 <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                    @if(count($diaries) != 0)
                     <table class="table my-0" id="dataTable">
                         <thead>
                             <tr>
@@ -65,8 +66,10 @@
                                 </tr>
                             @endforeach
                         </tbody>
-
                     </table>
+                    @else
+                        <h1 style="margin:0 auto;width:120px;">NONE</h1>
+                    @endif 
                 </div>
                 <div class="row">
                     <div class="col-md-6 align-self-center">

@@ -1,5 +1,5 @@
 <?php
-
+Route::fallback('GeneralController@error');
 //login
 Route::group([
     'middleware' => [],

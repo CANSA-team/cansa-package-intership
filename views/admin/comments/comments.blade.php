@@ -1,13 +1,6 @@
 @extends('package-intership::auth.dashboard')
     @section('title', 'Comment')
     @section('content-dashboard')
-    <style>
-        .text-content {
-            max-width: 200px;
-            min-width: 190px;
-        }
-
-    </style>
     <div class="container-fluid">
         <div class="card shadow mb-3">
             <div class="card-header py-3">

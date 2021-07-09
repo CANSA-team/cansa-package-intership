@@ -11,8 +11,8 @@
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
             @if (isset($_GET['key']))
-             <a class="btn btn-outline-primary mr-sm-2 dd" href="{{ route('weeks',['diary_id'=>$_GET['diary_id']]) }}">Show All</a>
-            @endif
+            <a class="btn btn-outline-primary mr-sm-2 dd" href="{{route('diary-content', ['content_id' => $_GET['content_id']])}}">Show All</a>
+        @endif
         </nav>
         <div class="card shadow">
             <div class="card-body">

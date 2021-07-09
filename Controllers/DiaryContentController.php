@@ -41,6 +41,9 @@ class DiaryContentController extends Controller
      */
     public function index(Request $request)
     {
+        if (!isset($request->content_id)) {
+            return abort(404);
+        }
         $contents = DiaryContent::getDiariesContents($request->content_id);
         return view(DiaryContentController::getView(), ['contents' => $contents]);
     }
@@ -52,6 +55,9 @@ class DiaryContentController extends Controller
      */
     public function create()
     {
+        if (!isset($_GET['content_id'])) {
+            return abort(404);
+        }
         return view('package-intership::admin.diary-content.create_update');
         
     }
@@ -64,7 +70,9 @@ class DiaryContentController extends Controller
      */
     public function edit(Request $request)
     {
-
+        if (!isset($request->content_id) || !isset($request->id)) {
+            return abort(404);
+        }
         $content = DiaryContent::getDiaryContentById($request->id);
         return view('package-intership::admin.diary-content.create_update', ['content' => $content]);
       

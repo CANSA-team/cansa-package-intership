@@ -37,7 +37,11 @@ class Week extends Model
 
     //thêm 1 week ($request lấy từ Request $request)
     static function insertWeek($request)
-    {     
+    {
+        $request->validate([
+            'week_weekdays' => 'required|min:1|max:255',
+            'diary_id' => 'required|min:1',
+        ]);
         $week = new Week();
         $week->week_weekdays = $request->week_weekdays;
         $week->status_check = 0;
@@ -45,13 +49,16 @@ class Week extends Model
         $week->start_date = $request->start_date;
         $week->end_date = $request->end_date;
         $week->diary_id = $request->diary_id;
-        $week->save();   
+        $week->save();
     }
 
     //cập nhật, chỉnh sửa 1 week ($request lấy từ Request $request)
     static function updateWeek($request)
-    {  
-        
+    {
+        $request->validate([
+            'week_weekdays' => 'required|min:1',
+            'diary_id' => 'required|min:1',
+        ]);
         $week = Week::getWeekById($request->week_id);
         $week->week_weekdays = $request->week_weekdays;
         $week->status_check = 0;
@@ -59,7 +66,7 @@ class Week extends Model
         $week->start_date = date('Y-m-d H:i:s', strtotime($request->start_date));
         $week->end_date = date('Y-m-d H:i:s', strtotime($request->end_date));
         $week->diary_id = $request->diary_id;
-        $week->save();       
+        $week->save();
     }
 
     //xóa 1 week ($request lấy từ Request $request, bao gồm diaries_contents, comments có liên quan)

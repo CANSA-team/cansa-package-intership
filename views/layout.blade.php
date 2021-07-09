@@ -37,6 +37,10 @@
     .table{
         min-height: 80vh;       
     }
+    .text-content {
+        max-width: 200px;
+        min-width: 190px;
+    }
 </style>
     <!-- Content -->
     @yield('content')

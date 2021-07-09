@@ -37,12 +37,15 @@ class WeeksController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\ResponseS
      */
     public function index(Request $request)
-    {    
+    {
+        if (!isset($request->diary_id)) {
+            return abort(404);
+        }
         $weeks = Week::getWeeks($request->diary_id);
-        return view(WeeksController::getView(), ['weeks' => $weeks]);  
+        return view(WeeksController::getView(), ['weeks' => $weeks]);
     }
 
     /**
@@ -52,7 +55,9 @@ class WeeksController extends Controller
      */
     public function create()
     {
-       
+        if (!isset($_GET['diary_id'])) {
+            return abort(404);
+        }
         return view('package-intership::admin.weeks.create_update');
     }
 
@@ -64,13 +69,11 @@ class WeeksController extends Controller
      */
     public function edit(Request $request)
     {
-        if (Auth::check()) {
-            $week = Week::getWeekById($request->id);
-            return view('package-intership::admin.weeks.create_update', ['week' => $week]);
-        } else {
-            session()->flush();
-            return redirect()->route('login.form');
+        if (!isset($request->diary_id) || !isset($request->id)) {
+            return abort(404);
         }
+        $week = Week::getWeekById($request->id);
+        return view('package-intership::admin.weeks.create_update', ['week' => $week]);
     }
 
     /**
@@ -82,6 +85,7 @@ class WeeksController extends Controller
      */
     public function update(Request $request)
     {
+        
         Week::updateWeek($request);
         return redirect()->route('weeks', ['diary_id' => $request->diary_id]);
     }

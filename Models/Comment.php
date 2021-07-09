@@ -39,6 +39,14 @@ class Comment extends Model
     //thêm 1 comment ($request lấy từ Request $request)
     static function insertComment($request)
     {
+        $request->validate([
+
+            'comment_content' => 'required|min:1',
+    
+    
+            'content_id' => 'required|min:1',
+    
+        ]);
         $comment = new Comment();
         $comment->user_id = Auth::user()->user_id;
         $comment->comment_content = $request->comment_content;
@@ -51,6 +59,14 @@ class Comment extends Model
     //cập nhật, chỉnh sửa 1 comment ($request lấy từ Request $request)
     static function updateComment($request)
     {
+        $request->validate([
+
+            'comment_content' => 'required|min:1|max:255',
+    
+    
+            'content_id' => 'required|min:1',
+    
+        ]);
         $comment = Comment::getCommentById($request->id);
         $comment->comment_content = $request->comment_content;
         $comment->comment_rating = $request->comment_rating;

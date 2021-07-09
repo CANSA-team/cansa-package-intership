@@ -17,6 +17,15 @@
                 @endif
             </nav>
             <div class="card shadow">
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
                 <div class="card-body">
 
                     @if (isset($week))
@@ -50,12 +59,12 @@
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group"><label for="email"><strong>Start Date</strong></label>
-                                    <div><input type="date" name="start_date" /></div>
+                                    <div><input type="date" name="start_date" value="{{ date('Y-m-d', time()) }}"/></div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group"><label for="email"><strong>End Date</strong></label>
-                                    <div><input type="date" name="end_date" /></div>
+                                    <div><input type="date" name="end_date" value="{{ date('Y-m-d', time()) }}"/></div>
                                 </div>
                             </div>
                         </div>

@@ -15,10 +15,10 @@ class CreateDiariesContentsTable extends Migration
     {
         Schema::create('diaries_contents', function (Blueprint $table) {
             $table->id('diarycontent_id');
-            $table->string('diarycontent_weekday',100);
-            $table->string('diarycontent_work',255);
-            $table->string('diarycontent_content',255);           
-            $table->string('diarycontent_note',255);
+            $table->string('diarycontent_weekday',255);
+            $table->text('diarycontent_work');
+            $table->text('diarycontent_content');           
+            $table->text('diarycontent_note');
             $table->integer('weeks_id');
             $table->integer('status');
             $table->timestamp('deleted_at')->nullable();           

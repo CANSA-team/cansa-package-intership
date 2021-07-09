@@ -44,6 +44,11 @@ class Diary extends Model
     //thêm 1 diary ($request lấy từ Request $request)
     static function insertDiary($request)
     {
+        $request->validate([
+
+            'diary_name' => 'required|min:1|max:255',
+    
+        ]);
         return Diary::create([
             'diary_name' => $request->diary_name,
             'user_id' => Auth::user()->user_id,
@@ -54,6 +59,11 @@ class Diary extends Model
     //cập nhật, chỉnh sửa 1 diary ($request lấy từ Request $request)
     static function updateDiary($request)
     {
+        $request->validate([
+
+            'diary_name' => 'required|min:1',
+    
+        ]);
         $diary = Diary::getDiaryById($request->diary_id);
         $diary->diary_name = $request->diary_name;
         $diary->user_id = Auth::user()->user_id;

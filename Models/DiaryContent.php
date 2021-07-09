@@ -15,7 +15,7 @@ class DiaryContent extends Model
 
     //các cột được phép thay đổi
     protected $fillable = [
-        'diarycontent_weekday', 
+        'diarycontent_weekday',
         'diarycontent_work',
         'diarycontent_content',
         'diarycontent_note',
@@ -24,13 +24,15 @@ class DiaryContent extends Model
     ];
 
     //lấy tất cả diaries_contents (chưa join)
-    static function getDiariesContents($weeks_id){
+    static function getDiariesContents($weeks_id)
+    {
         $content = DiaryContent::where('weeks_id', $weeks_id)->orderBy('diarycontent_id', 'DESC')->paginate(10);
         return $content;
     }
-    
+
     //lấy 1 diary_content theo id (id lấy từ request,chưa join)
-    static function getDiaryContentById($id){
+    static function getDiaryContentById($id)
+    {
         return DiaryContent::find($id);
     }
     // Search diary
@@ -44,7 +46,21 @@ class DiaryContent extends Model
         return $week;
     }
     //thêm 1 diary_content ($request lấy từ Request $request)
-    static function insertDiaryContent($request){
+    static function insertDiaryContent($request)
+    {
+        $request->validate([
+
+            'diarycontent_weekday' => 'required|min:1',
+            'diarycontent_work' => 'required|min:1',
+            'diarycontent_content' => 'required|min:1',
+            'diarycontent_note' => 'required|min:1',
+
+        ], [
+            'diarycontent_weekday.required' => 'The Diary Content Weekday field is required.',
+            'diarycontent_work.required' => 'The Diary Content Work field is required.',
+            'diarycontent_content.required' => 'The Diary Content Note field is required.',
+            'diarycontent_note.required' => 'The Diary Content Content field is required.',
+        ]);
         $diary_content = new DiaryContent();
         $diary_content->diarycontent_weekday = $request->diarycontent_weekday;
         $diary_content->diarycontent_work = $request->diarycontent_work;
@@ -56,7 +72,22 @@ class DiaryContent extends Model
     }
 
     //cập nhật, chỉnh sửa 1 diary_content ($request lấy từ Request $request)
-    static function updateDiaryContent($request){
+    static function updateDiaryContent($request)
+    {
+        $request->validate([
+
+            'diarycontent_weekday' => 'required|min:1|max:255',
+            'diarycontent_work' => 'required|min:1',
+            'diarycontent_content' => 'required|min:1',
+            'diarycontent_note' => 'required|min:1',
+            'content_id' => 'required|min:1',
+
+        ], [
+            'diarycontent_weekday.required' => 'The Diary Content Weekday field is required.',
+            'diarycontent_work.required' => 'The Diary Content Work field is required.',
+            'diarycontent_content.required' => 'The Diary Content Note field is required.',
+            'diarycontent_note.required' => 'The Diary Content Content field is required.',
+        ]);
         $diary_content = DiaryContent::getDiaryContentById($request->diarycontent_id);
         $diary_content->diarycontent_weekday = $request->diarycontent_weekday;
         $diary_content->diarycontent_work = $request->diarycontent_work;
@@ -68,9 +99,10 @@ class DiaryContent extends Model
     }
 
     //xóa 1 diary_content ($request lấy từ Request $request, bao gồm comments có liên quan)
-    static function deleteDiaryContent($request){
+    static function deleteDiaryContent($request)
+    {
         $diary_content = DiaryContent::getDiaryContentById($request->diarycontent_id);
-        foreach ($diary_content->comments as $comment){
+        foreach ($diary_content->comments as $comment) {
             $comment->delete();
         }
         $diary_content->delete();
@@ -89,7 +121,8 @@ class DiaryContent extends Model
     }
 
     //chỉnh status
-    static function changeStatus($request){
+    static function changeStatus($request)
+    {
         $diary_content = DiaryContent::getDiaryContentById($request->diarycontent_id);
         $diary_content->status = $request->status;
         $diary_content->save();

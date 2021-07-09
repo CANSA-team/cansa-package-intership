@@ -42,6 +42,9 @@ class CommentController extends Controller
      */
     public function index(Request $request)
     {
+        if (!isset($request->content_id)) {
+            return abort(404);
+        }
         $comments = Comment::getComments($request->content_id);
         $content = DiaryContent::getDiaryContentById($request->content_id);
         return view(CommentController::getView(), ['comments' => $comments,'content' => $content]);
@@ -54,7 +57,9 @@ class CommentController extends Controller
      */
     public function create()
     {
-     
+        if (!isset($_GET['content_id'])) {
+            return abort(404);
+        }
         return view('package-intership::admin.comments.create_update');
     }
 
@@ -65,14 +70,12 @@ class CommentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request)
-    {
-        if (Auth::check()) {
-            $comment = Comment::getCommentById($request->id);
-            return view('package-intership::admin.comments.create_update', ['comment' => $comment]);
-        } else {
-            session()->flush();
-            return redirect()->route('login.form');
+    {      
+        if (!isset($request->id) || !isset($request->content_id)) {
+            return abort(404);
         }
+        $comment = Comment::getCommentById($request->id);
+        return view('package-intership::admin.comments.create_update', ['comment' => $comment]);
     }
 
     /**

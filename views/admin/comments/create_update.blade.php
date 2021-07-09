@@ -15,13 +15,24 @@
                 @endif
             </nav>
             <div class="card shadow">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="card-body">
+
                     @if (isset($comment))
                         <form method="post" action="{{ route('comment.update', ['content_id' => $_GET['content_id']]) }}">
                             <input hidden name="id" value="{{ $comment->comment_id }}">
                             <div class="form-group"><label for="username"><strong>Comment
                                         Content</strong></label><textarea class="form-control" id="signature" rows="4"
-                                    name="comment_content">{{ $comment->comment_content }}</textarea></div>
+                                    name="comment_content">{{ $comment->comment_content }}</textarea>
+                            </div>
                             <div class="rating">
                                 @for ($i = 1; $i <= 5; $i++)
                                     @if ($i <= $comment->comment_rating) <i class="fa
@@ -46,6 +57,7 @@
                                 <i class="fa fa-star gold" aria-hidden="true"></i>
                             </div>
                             <input type="hidden" name="comment_rating" id="rating" value="5">
+
                             <button type="submit" class="btn btn-primary btn-sm ml-auto" type="button">Submit</a>
                         </form>
                     @endif

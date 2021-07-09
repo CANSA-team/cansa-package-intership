@@ -29,7 +29,7 @@ class Diary extends Model
                 $diaries = Diary::where('user_id', $user_id)->orderBy('diary_id', 'DESC')->paginate(10);
                 break;
             default:
-                $diaries = Diary::paginate(10);
+                $diaries = Diary::orderBy('diary_id', 'DESC')->paginate(10);
                 break;
         }
         return $diaries;

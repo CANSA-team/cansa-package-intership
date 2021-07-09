@@ -5,6 +5,7 @@ namespace Cansa\Intership;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Schema;
 class IntershipServiceProvider extends ServiceProvider {
 
     /**
@@ -33,6 +34,7 @@ class IntershipServiceProvider extends ServiceProvider {
         $this->publishSeeders();
 
         Paginator::useBootstrap();
+        Schema::defaultStringLength(191);
     }
 
     /**
